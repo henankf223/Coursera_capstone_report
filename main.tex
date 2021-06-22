@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 
-\title{Coursera_capstone_report}
+\title{Report: Locating Chinese District in Any City}
 \author{Nan He}
 \date{June 2021}
 
@@ -10,5 +10,61 @@
 \maketitle
 
 \section{Introduction}
+\subsection{Background}
+In recent decades, more and more Chinese works and study oversea in the United States, Canada, and other western countries.
+Oversea Chinese population in the US grow from 3,347,229 in 2010 to 4,143,982 in 2020.\cite{census2010chi, census2020chi}
+The growing presence of these new Chinese workers have a major impact on existing local Chinese communities in major western cities.
+Research suggested that the newcomers helps revitalizing and transforming old Chinatown. \cite{jia2010chinatown}
+They also boost the growth of many non-traditional Chinatown or "Chinese District" in many middle sized cities where local Chinese population is small.
+
+For international Chinese students like me, the existence of a local Chinatown or "Chinese districts" is important for residential decisions.
+The combination of Authentic Chinese and Asian food, Asian supermarkets, and various services in Chinese language provides a smooth culture transition for many newcomers. My personal experiences are supported by previous publications.\cite{zhou2010chinatown} This report focus on finding the opportunities inside this trend.
+
+\subsection{Business Problem}
+One major problem of the Chinese districts in middle-sized western cities is that their distributions are generally obscure, especially for someone who is not a Chinese.
+When I visited Charlotte and Atlanta the first time, when talking about which areas have good access to Chinese services and goods, every person almost gave totally different answers.
+Some of them have already live there for over 5 years, while still have no clear clue whether a "Chinese District" exist and where is it.
+Inspired by these experiences, in this report, I will try to investigate this problem, try to build a tool to find the location of a existing Chinese District for any given city using a data driven approach.
+
+\subsection{Significance}
+This problem have values for two types of users. Firstly, for investors to identify potential investment of a Chinese venues, especially for those who is not local to that city, or not familiar with the Chinese communities. Secondly, for other Chinese students and oversee works who seeks to find a comfortable environment in an unfamiliar city.
+
+\section{Data}
+To achieve our goal of finding Chinese districts automatically, two type of data are needed. 
+1. Data that tells us what a Chinese district should look like.
+2. A target city or area the user wants to investigate.
+
+The simplest idea is to use the unsupervised learning techniques only based on the target city data.
+In this case, we do not need data 1.
+However, Chinese venues are not common features for many US cities, it is very possible that naive unsupervised learning techniques cannot distinguish the Chinese district from other districts.
+Therefore, the data 1 will play an important role to screen the venue types, and possibly introduce a weighted distances during the unsupervised learning.
+
+\subsection{Chinatown Data}
+
+\subsection{Target City Data}
+
+\section{Methodology}
+\subsection{Naive K-means}
+
+\subsection{Exploratory Data Analysis}
+
+\subsection{K-means Clustering}
+
+\subsection{Weighted Distance K-means}
+
+\section{Result and Discussion}
+
+\subsection{Results of Charlotte and Atlanta}
+
+\subsection{The Pipeline}
+
+\subsection{Potential Problems}
+
+\section{Conclusion}
+
+\newpage
+
+\bibliographystyle{unsrt}
+\bibliography{capstone}
 
 \end{document}
