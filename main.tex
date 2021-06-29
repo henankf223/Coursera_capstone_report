@@ -211,7 +211,7 @@ In the following section, I will use this procedure to identify the Chinese dist
 
 I first apply the weighted K-means clustering on the Charlotte grid points, the figure here shows the result.
 There are 7 resulting clusters.
-To extract the important information, we sort these seven clusters according to "Chinese restaurant" venue category and color only the top three clusters into deep red, red and pink colors.
+To extract the important information, we sort these seven clusters according to the sum of the average frequency in $F_{S, W}$ and color only the top three clusters into deep red, red and pink colors.
 Other four clusters will be painted white.
 From the results, we can see that Eastern Charlotte, especially areas around NC 24 seem to be more possible to have Chinese districts.
 We should also notice that the distribution of those red clusters is fairly dispersed.
@@ -233,13 +233,33 @@ It is obvious that my algorithm successfully capture this information without ex
 
 \newpage
 
-\subsection{The Pipeline}
+\subsection{Potential Problems and Extensions}
+(Limitations of current approach)
+One major limitations to my current algorithm is the identification of the resulting cluster.
+In Section 4, the weighted K-means clustering algorithm generates seven clusters based on $F_{S, W}$, and I sort them according to average $F_{S, W}$ to color them deep red, red, or pink.
+This step is a quick-and-dirty trick and is not rigorously justified.
+Since different grid point areas have different number of venues; an area with higher "Chinese restaurant" or "Bakery" frequencies do not necessarily be a Chinese district.
+For example, if a grid point area have only 15 venues and two of them are "Chinese restaurant", this point will have a "Chinese restaurant" frequency of 0.133, which boosts their average $F_{S, W}$ significantly.
+Those areas can simply be some suburb that happen to have two Chinese venues.
 
+Therefore, a potential improvement to my procedure is to take the total number of venues of each grid points into account to normalize the frequencies.
+The other simple solution is to raise the minimum number of venues from 15 to 30 or 50 for each grid point areas.
 
-\subsection{Potential Problems}
-
+The other concern may be the feature selection in Section 3.2.
+The current feature selection sampling is based on the 327 Charlotte grid point samples.
+However, it is possible that each city in the US have their own unique distribution of venue categories.
+For a more compelling and well-supported argument, more samples should be taken.
+A possible practice is to sample grid points around our target city, implementing the feature selection in Section 3.2 as part of the pipeline.
 
 \section{Conclusion}
+In conclusion, I proposed a procedure to identify Chinese district in any city.
+The procedure utilize venue frequencies as the indicator to cluster a geography grid points around a target city.
+Those indicators are selected and weighted based on the venue frequency data from five major Chinatown in the US.
+I apply this procedure to two middle-sized cities in the US and the results are consistent with my personal experiences.
+This procedure is still primitive, and further improvement is expected.
+
+\section{Acknowledgement}
+This project is a part of the "IBM Data Science Professional Certificate".
 
 \newpage
 
