@@ -128,41 +128,77 @@ Therefore, data 1 will play a vital role in screening the venue types and possib
 
 \section{Methodology}
 \subsection{Naive K-means Clustering}
+To achieve our goal of identifying Chinese district, multiple approaches are possible.
+A categorizer using logistic regression or a agglomerated decision tree can do the job with enough data and training.
+However, due to the limited Foursquare queries we have access to, unsupervised learning techniques are more suitable for this project, since they do not need sizable data sets to train.
+K-means clustering algorithm is a clustering algorithm that partition data into k clusters which minimize the in-cluster variance. It starts with a chosen number of "centroids", which are then iteratively optimized to minimize the square sum of distances from in-cluster data points to centroids.\cite{likas2003global}
 
-(Kmeans introduction)
-
-(Naive Kmean approach I take)
+The first idea come to my mind is that whether it is possible to directly identify Chinese district by mixing those Chinatown points into a target city, and see what clusters they belong to.
+Heuristically, A grid point area with venues similar to a classical Chinatown should also be a Chinese district.
+I name this approach "Naive K-means".
+In this test, I mix the five Chinatown data directly with the 327 grid points (with over 15 venues within that grid) in Charlotte and run K-means clustering with $k=7$.
 
 \begin{figure}[h!]
 \includegraphics[width=1.0\textwidth]{cn1.jpg}
 \centering
 \end{figure}
 
-(The problems)
+As shown in the figure, the blue points are all in the same cluster with the five Chinatown.
+It is obvious that the algorithm fails to distinguish Chinese district from normal urban areas.
 
 \newpage
 
 \subsection{Feature Analysis}
 
-(Discuss the feature selection)
+Digging into the problem, I group the Chinatown venues and Charlotte grid point venues by venue catagories.
+Venue categories of the five Chinatown locations:
+\begin{figure}[h!]
+\includegraphics[width=0.7\textwidth]{csp1.jpg}
+\centering
+\end{figure}
+Venue categories of the 400 Charlotte points:
+\begin{figure}[h!]
+\includegraphics[width=0.7\textwidth]{csp2.jpg}
+\centering
+\end{figure}
+Notice that some frequent venues in the Chinatown locations are also common in Charlotte grid point locations.
+Those venue types can be one of the major reason that the naive K-means put so many points in the same cluster with the Chinatown data.
+For example, "pizza place" and "coffee shop" don't look like a feature of a Chinese district from my personal experiences.
+However, as for "Bakery", I have no idea whether it is a Chinese district feature.
+Therefore, statistical approach should be used to identify valid features.
+A venue category frequency is a feature if it is significantly more frequent in a Chinatown than that in a normal US urban areas.
+Since the variance of the venue counts is huge, I use the $1.5 \times IQR$ standard as an in-sample testing.
+IQR range includes venue frequencies within the $25\%$ to $75\%$ of all sample points.
+For each venue category, we sample the 327 Charlotte grid and plot their $1.5 \times IQR$ bars. 
+If a type of Chinatown venue frequency is higher than that bar, it will be considered a Chinese district feature.
 
+The box plots that show $1.5 \times IQR$ for grid point venue frequencies:
 \begin{figure}[h!]
 \includegraphics[width=1.0\textwidth]{cn2.jpg}
 \centering
 \end{figure}
+Note that some venue types have $1.5 \times IQR$ bar at 0. It indicates that more than $75\%$ of grid point areas have zero venues of these types.
 
+Then I overlap the Chinatown venue frequencies with this figure:
 \begin{figure}[h!]
 \includegraphics[width=1.0\textwidth]{cn3.pdf}
 \centering
 \end{figure}
+This results clearly show what venue categories are Chinese district features and what are not.
+As I expected, "coffee shop" and "pizza place" are not Chinese district feature, and "Chinese restaurant" is a Chinese district feature.
+Surprisingly, "Bakery" is a feature of Chinese district, which is different from my expectations.
 
 \newpage
 
-\subsection{Weighted Distance K-means}
+\subsection{Weighted K-means}
 
-(Discuss how the distance is weighted)
-
-\newpage
+With these features in hand, I can exclude the unrelated features to improve the clustering procedure and only keep the related features (noted as $A$).
+And we mark the venue frequencies in five Chinatown as $F_C$, and the 327 grid point sample frequencies as $F_S$.
+To further enhance the distinguishing or recognition capability of the clustering procedure, I weighted the frequencies of those related features in Charlotte grid points by multiplying them with the Chinatown frequencies.
+$$ F_{S, W} = (F_S \times A) \circ F_C $$
+where $\circ$ represents element-wise (Hadamard) product, and $F_{S, W}$ is the weighted venue frequencies ready for the K-means clustering computation.
+By this treatment, the venue categories that are more frequent in the Chinatown data (like Chinese restaurants) get more attention and importance during the clustering.
+In the following section, I will use this procedure to identify the Chinese district in Charlotte and Atlanta.
 
 \section{Result and Discussion}
 
@@ -173,7 +209,13 @@ Therefore, data 1 will play a vital role in screening the venue types and possib
 \centering
 \end{figure}
 
-\newpage
+I first apply the weighted K-means clustering on the Charlotte grid points, the figure here shows the result.
+There are 7 resulting clusters.
+To extract the important information, we sort these seven clusters according to "Chinese restaurant" venue category and color only the top three clusters into deep red, red and pink colors.
+Other four clusters will be painted white.
+From the results, we can see that Eastern Charlotte, especially areas around NC 24 seem to be more possible to have Chinese districts.
+We should also notice that the distribution of those red clusters is fairly dispersed.
+From those data, it is also possible that Charlotte does not have a major Chinese district like New York or San Francisco, or it may locates somewhere outside of the urban areas.
 
 \subsection{Results of Atlanta}
 
@@ -182,11 +224,20 @@ Therefore, data 1 will play a vital role in screening the venue types and possib
 \centering
 \end{figure}
 
+The second city I investigate is Atlanta.
+The grid points and results are generated through the same procedure as Charlotte.
+After running the weighted K-means clustering, the results show several significant Chinese district possibilities around Chamblee.
+This result is consistent with my experiences in Atlanta.
+The areas around Chamblee is a traditional Chinese district in Atlanta.
+It is obvious that my algorithm successfully capture this information without explicit training.
+
 \newpage
 
 \subsection{The Pipeline}
 
+
 \subsection{Potential Problems}
+
 
 \section{Conclusion}
 
