@@ -156,11 +156,13 @@ Venue categories of the five Chinatown locations:
 \includegraphics[width=0.7\textwidth]{csp1.jpg}
 \centering
 \end{figure}
+
 Venue categories of the 400 Charlotte points:
 \begin{figure}[h!]
 \includegraphics[width=0.7\textwidth]{csp2.jpg}
 \centering
 \end{figure}
+
 Notice that some frequent venues in the Chinatown locations are also common in Charlotte grid point locations.
 Those venue types can be one of the major reasons that the naive K-means put so many points in the same cluster with the Chinatown data.
 For example, "pizza place" and "coffee shop" don't look like a feature of a Chinese district from my personal experiences.
@@ -177,18 +179,20 @@ The box plots that show $1.5 \times IQR$ for grid point venue frequencies:
 \includegraphics[width=1.0\textwidth]{cn2.jpg}
 \centering
 \end{figure}
+
 Note that some venue types have $1.5 \times IQR$ bar at 0. It indicates that more than $75\%$ of grid point areas have zero venues of these types.
+
+\newpage
 
 Then I overlap the Chinatown venue frequencies with this figure:
 \begin{figure}[h!]
 \includegraphics[width=1.0\textwidth]{cn3.pdf}
 \centering
 \end{figure}
+
 These results clearly show what venue categories are Chinese district features and what is not.
 As I expected, "coffee shop" and "pizza place" are not Chinese district features, and "Chinese restaurant" is a Chinese district feature.
 Surprisingly, "Bakery" is a feature of Chinese districts, which is different from my expectations.
-
-\newpage
 
 \subsection{Weighted K-means}
 
